@@ -59,6 +59,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#ansible-controller">Ansible Controller</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#jumphost-for-nat-network">Jumphost for NAT network</a>
+    </li>
     </ul>
                   </li>
               </ul>
@@ -77,7 +79,7 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../troubleshooting/">Troubleshooting</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../CHANGELOG/">Change Log</a>
+                  <li class="toctree-l1"><a class="" href="../CHANGELOG.md">Change Log</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../acknowledgements/">Acknowledgements</a>
                   </li>
@@ -174,9 +176,6 @@
 <ul>
 <li>If you will be using these playbooks to automate the creation of the LPAR(s) that will act as KVM host(s) for the cluster, you will also need:</li>
 </ul>
-<pre class="codehilite"><code>pip3 install zhmcclient cryptography packaging PyYAML
-</code></pre>
-
 <pre class="codehilite"><code>ansible-galaxy collection install ibm.ibm_zhmc 
 </code></pre>
 
@@ -187,9 +186,20 @@
 </code></pre>
 
 <ul>
-<li>and <a href="https://apps.apple.com/us/app/xcode/id497799835?mt=12">Xcode</a>:</li>
+<li><a href="https://apps.apple.com/us/app/xcode/id497799835?mt=12">Xcode</a>:</li>
 </ul>
 <pre class="codehilite"><code>xcode-select --install
+</code></pre>
+
+<h2 id="jumphost-for-nat-network">Jumphost for NAT network<a class="headerlink" href="#jumphost-for-nat-network" title="Permanent link">#</a></h2>
+<ul>
+<li>If for KVM network NAT is used, instead of macvtap, a ssh tunnel using a jumphost is required to access the OCP cluster. To configure the ssh tunnel expect is required on the jumphost. Expect will be installed during the setup of the bastion (4_setup_bastion.yaml playbook). In case of missing access to install additional packages, install it manually on the jumphost by executing following command:</li>
+</ul>
+<pre class="codehilite"><code>yum install expect 
+</code></pre>
+
+<p>In addition make sure that python3 is installed on the jumphost otherwise ansible might fail to run the tasks. You can install python3 manually by executing the following command:</p>
+<pre class="codehilite"><code>yum install python3 
 </code></pre>
               
             </div>

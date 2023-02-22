@@ -82,13 +82,11 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#11-optional-packages">11 - (Optional) Packages</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#12-optional-mirror-links">12 - (Optional) Mirror Links</a>
+    <li class="toctree-l2"><a class="reference internal" href="#12-openshift-settings">12 - OpenShift Settings</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#13-optional-ocp-install-config">13 - (Optional) OCP Install Config</a>
+    <li class="toctree-l2"><a class="reference internal" href="#13-optional-proxy">13 - (Optional) Proxy</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#14-optional-proxy">14 - (Optional) Proxy</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#15-optional-misc">15 - (Optional) Misc</a>
+    <li class="toctree-l2"><a class="reference internal" href="#14-optional-misc">14 - (Optional) Misc</a>
     </li>
     </ul>
                   </li>
@@ -101,7 +99,7 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../troubleshooting/">Troubleshooting</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../CHANGELOG/">Change Log</a>
+                  <li class="toctree-l1"><a class="" href="../CHANGELOG.md">Change Log</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../acknowledgements/">Acknowledgements</a>
                   </li>
@@ -173,6 +171,11 @@
 <td align="left"><strong>env.z.high_availability</strong></td>
 <td align="left">Is this cluster spread across three LPARs? If yes, mark True. If not (just in<br /> one LPAR), mark False</td>
 <td align="left">True</td>
+</tr>
+<tr>
+<td align="left"><strong>env.z.ip_forward</strong></td>
+<td align="left">This variable specifies if ip forwarding is enabled or not if NAT network is selected. If ip_forwarding is set to 0, the installed OCP cluster will not be able to access external services. This setting will be configured during 3_setup_kvm playbook. If NAT will be configured after 3_setup_kvm playbook, the setup needs to be done manually before bastion is being created, configured or reconfigured by running the 3_setup_kvm playbook with parameter: --tags cfg_ip_forward</td>
+<td align="left">1</td>
 </tr>
 <tr>
 <td align="left"><strong>env.z.lpar1.create</strong></td>
@@ -366,6 +369,11 @@
 <td align="left">ocpz-bastion</td>
 </tr>
 <tr>
+<td align="left"><strong>env.bastion.networking.base_<br />domain</strong></td>
+<td align="left">Base domain that, when combined with the hostname, creates a fully-qualified<br /> domain name (FQDN) for the bastion?</td>
+<td align="left">ihost.com</td>
+</tr>
+<tr>
 <td align="left"><strong>env.bastion.networking.<br />subnetmask</strong></td>
 <td align="left">Subnet of the bastion.</td>
 <td align="left">255.255.255.0</td>
@@ -386,14 +394,14 @@
 <td align="left">192.168.10.201</td>
 </tr>
 <tr>
+<td align="left"><strong>env.bastion.networking.forwarder</strong></td>
+<td align="left">What IPv4 address will be used to make external DNS calls for the bastion? Can use 1.1.1.1 or 8.8.8.8 as defaults.</td>
+<td align="left">8.8.8.8</td>
+</tr>
+<tr>
 <td align="left"><strong>env.bastion.networking.interface</strong></td>
 <td align="left">Name of the networking interface on the bastion from Linux's perspective. Most likely enc1.</td>
 <td align="left">enc1</td>
-</tr>
-<tr>
-<td align="left"><strong>env.bastion.networking.base_<br />domain</strong></td>
-<td align="left">Base domain that, when combined with the hostname, creates a fully-qualified<br /> domain name (FQDN) for the bastion?</td>
-<td align="left">ihost.com</td>
 </tr>
 <tr>
 <td align="left"><strong>env.bastion.access.user</strong></td>
@@ -464,7 +472,7 @@
 </tr>
 <tr>
 <td align="left"><strong>env.cluster.networking.forwarder</strong></td>
-<td align="left">What IPv4 address will be used to make external DNS calls? Can use 1.1.1.1 or 8.8.8.8 as defaults.</td>
+<td align="left">What IPv4 address will be used to make external DNS calls for the cluster? Can use 1.1.1.1 or 8.8.8.8 as defaults.</td>
 <td align="left">8.8.8.8</td>
 </tr>
 </tbody>
@@ -669,7 +677,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="12-optional-mirror-links">12 - (Optional) Mirror Links<a class="headerlink" href="#12-optional-mirror-links" title="Permanent link">#</a></h2>
+<h2 id="12-openshift-settings">12 - OpenShift Settings<a class="headerlink" href="#12-openshift-settings" title="Permanent link">#</a></h2>
 <table>
 <thead>
 <tr>
@@ -680,42 +688,10 @@
 </thead>
 <tbody>
 <tr>
-<td align="left"><strong>env.openshift.client</strong></td>
-<td align="left">Link to the mirror for the OpenShift client from Red Hat. Feel free to change to a different version, but <br /> make sure it is for s390x architecture.</td>
-<td align="left">https://mirror.openshift.com<br />/pub/openshift-v4/s390x/clients<br />/ocp/stable/openshift-<br />client-linux.tar.gz</td>
+<td align="left"><strong>env.openshift.version</strong></td>
+<td align="left">Version of OpenShift you would like to download and install. Use major.minor.patch naming convention.</td>
+<td align="left">4.12.0</td>
 </tr>
-<tr>
-<td align="left"><strong>env.openshift.installer</strong></td>
-<td align="left">Link to the mirror for the OpenShift installer from Red Hat.<br /> Feel free to change to a different version, but make sure it is for s390x architecture.</td>
-<td align="left">https://mirror.openshift.com<br />/pub/openshift-v4/s390x<br />/clients/ocp/stable/openshift-<br />install-linux.tar.gz</td>
-</tr>
-<tr>
-<td align="left"><strong>env.coreos.kernel</strong></td>
-<td align="left">Link to the mirror of the CoreOS kernel to be used for the bootstrap, control and compute nodes.<br /> Feel free to change to a different version, but make sure it is for s390x architecture.</td>
-<td align="left">https://mirror.openshift.com<br />/pub/openshift-v4/s390x<br />/dependencies/rhcos<br />/4.9/latest/rhcos-4.9.0-s390x-<br />live-kernel-s390x</td>
-</tr>
-<tr>
-<td align="left"><strong>env.coreos.initramfs</strong></td>
-<td align="left">Link to the mirror of the CoreOS initramfs to be used for the bootstrap, control and compute nodes.<br /> Feel free to change to a different version, but make sure it is for s390x architecture.</td>
-<td align="left">https://mirror.openshift.com<br />/pub/openshift-v4<br />/s390x/dependencies/rhcos<br />/4.9/latest/rhcos-4.9.0-s390x-<br />live-initramfs.s390x.img</td>
-</tr>
-<tr>
-<td align="left"><strong>env.coreos.rootfs</strong></td>
-<td align="left">Link to the mirror of the CoreOS rootfs to be used for the bootstrap, control and compute nodes.<br /> Feel free to change to a different version, but make sure it is for s390x architecture.</td>
-<td align="left">https://mirror.openshift.com<br />/pub/openshift-v4<br />/s390x/dependencies/rhcos<br />/4.9/latest/rhcos-4.9.0-<br />s390x-live-rootfs.s390x.img</td>
-</tr>
-</tbody>
-</table>
-<h2 id="13-optional-ocp-install-config">13 - (Optional) OCP Install Config<a class="headerlink" href="#13-optional-ocp-install-config" title="Permanent link">#</a></h2>
-<table>
-<thead>
-<tr>
-<th align="left"><strong>Variable Name</strong></th>
-<th align="left"><strong>Description</strong></th>
-<th align="left"><strong>Example</strong></th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td align="left"><strong>env.install_config.api_version</strong></td>
 <td align="left">Kubernetes API version for the cluster. These install_config variables will be passed to the OCP<br /> install_config file. This file is templated in the get_ocp role during the setup_bastion playbook.<br /> To make more fine-tuned adjustments to the install_config, you can find it at<br /> roles/get_ocp/templates/install-config.yaml.j2</td>
@@ -753,8 +729,8 @@
 </tr>
 <tr>
 <td align="left"><strong>env.install_config.cluster_network.type</strong></td>
-<td align="left">The cluster network provider Container Network Interface (CNI) plug-in to install.<br /> Either OpenShiftSDN (recommended) or OVNKubernetes.</td>
-<td align="left">OpenShiftSDN</td>
+<td align="left">The cluster network provider Container Network Interface (CNI) plug-in to install.<br /> Either OpenShiftSDN or OVNKubernetes (default).</td>
+<td align="left">OVNKubernetes</td>
 </tr>
 <tr>
 <td align="left"><strong>env.install_config.service_network</strong></td>
@@ -768,7 +744,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="14-optional-proxy">14 - (Optional) Proxy<a class="headerlink" href="#14-optional-proxy" title="Permanent link">#</a></h2>
+<h2 id="13-optional-proxy">13 - (Optional) Proxy<a class="headerlink" href="#13-optional-proxy" title="Permanent link">#</a></h2>
 <table>
 <thead>
 <tr>
@@ -779,23 +755,23 @@
 </thead>
 <tbody>
 <tr>
-<td align="left"><strong>proxy_env.http_proxy</strong></td>
+<td align="left"><strong>env.proxy.http</strong></td>
 <td align="left">(Optional) A proxy URL to use for creating HTTP connections outside the cluster. Will be<br /> used in the install-config and applied to other Ansible hosts unless set otherwise in<br /> no_proxy below. Must follow this pattern: http://username:pswd&gt;@ip:port</td>
 <td align="left">http://ocp-admin:Pa$sw0rd@9.72.10.1:80</td>
 </tr>
 <tr>
-<td align="left"><strong>proxy_env.https_proxy</strong></td>
+<td align="left"><strong>env.proxy.https</strong></td>
 <td align="left">(Optional) A proxy URL to use for creating HTTPS connections outside the cluster. Will be<br /> used in the install-config and applied to other Ansible hosts unless set otherwise in<br /> no_proxy below. Must follow this pattern: https://username:pswd@ip:port</td>
 <td align="left">https://ocp-admin:Pa$sw0rd@9.72.10.1:80</td>
 </tr>
 <tr>
-<td align="left"><strong>proxy_env.no_proxy</strong></td>
+<td align="left"><strong>env.proxy.no</strong></td>
 <td align="left">(Optional) A comma-separated list (no spaces) of destination domain names, IP<br /> addresses, or other network CIDRs to exclude from proxying. When using a<br /> proxy, all necessary IPs and domains for your cluster will be added automatically. See<br /> roles/get_ocp/templates/install-config.yaml.j2 for more details on the template. <br />Preface a domain with . to match subdomains only. For example, .y.com matches<br /> x.y.com, but not y.com. Use * to bypass the proxy for all listed destinations.</td>
 <td align="left">example.com,192.168.10.1</td>
 </tr>
 </tbody>
 </table>
-<h2 id="15-optional-misc">15 - (Optional) Misc<a class="headerlink" href="#15-optional-misc" title="Permanent link">#</a></h2>
+<h2 id="14-optional-misc">14 - (Optional) Misc<a class="headerlink" href="#14-optional-misc" title="Permanent link">#</a></h2>
 <table>
 <thead>
 <tr>
@@ -827,8 +803,38 @@
 </tr>
 <tr>
 <td align="left"><strong>env.bridge_name</strong></td>
-<td align="left">(Optional) Name of the macvtap bridge that will be created on the KVM host.</td>
+<td align="left">(Optional) Name of the macvtap bridge that will be created on the KVM host or in case of NAT the name of the NAT network defenition (usually it is 'default'). If NAT is being used and a jumphost is needed, the parameters network_mode, jumphost.name, jumphost.user and jumphost.pass must be specified, too. In case of default (NAT) network verify that the configured IP ranges does not interfere with the IPs defined for the controle and compute nodes. Modify the default network (dhcp range setting) to prevent issues with VMs using dhcp and OCP nodes having fixed IPs.</td>
 <td align="left">macvtap-net</td>
+</tr>
+<tr>
+<td align="left"><strong>env.network_mode</strong></td>
+<td align="left">(Optional) In case the network mode will be NAT and the installation will be executed from remote (e.g. your laptop), a jumphost needs to be defined to let the installation access the bastion host. If macvtap for networking is being used this variable should be empty.</td>
+<td align="left">NAT</td>
+</tr>
+<tr>
+<td align="left"><strong>env.jumphost.name</strong></td>
+<td align="left">(Optional) If env.network.mode is set to 'NAT' the name of the jumphost (e.g. the name of KVM host if used as jumphost) should be specified.</td>
+<td align="left">kvm-host-01</td>
+</tr>
+<tr>
+<td align="left"><strong>env.jumphost.ip</strong></td>
+<td align="left">(Optional) The ip of the jumphost.</td>
+<td align="left">192.168.10.1</td>
+</tr>
+<tr>
+<td align="left"><strong>env.jumphost.user</strong></td>
+<td align="left">(Optional) The user name to login to the jumphost.</td>
+<td align="left">admin</td>
+</tr>
+<tr>
+<td align="left"><strong>env.jumphost.pass</strong></td>
+<td align="left">(Optional) The password for user to login to the jumphost.</td>
+<td align="left">ch4ngeMe!</td>
+</tr>
+<tr>
+<td align="left"><strong>env.jumphost.path_to_keypair</strong></td>
+<td align="left">(Optional) The absolute path to the public key file on the jumphost to be copied to the bastion.</td>
+<td align="left">/home/admin/.ssh/id_rsa.pub</td>
 </tr>
 </tbody>
 </table>
