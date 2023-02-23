@@ -64,7 +64,7 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#2-lpars">2 - LPAR(s)</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#3-ftp-server">3 - FTP Server</a>
+    <li class="toctree-l2"><a class="reference internal" href="#3-file-server">3 - File Server</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#4-red-hat-info">4 - Red Hat Info</a>
     </li>
@@ -254,7 +254,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="3-ftp-server">3 - FTP Server<a class="headerlink" href="#3-ftp-server" title="Permanent link">#</a></h2>
+<h2 id="3-file-server">3 - File Server<a class="headerlink" href="#3-file-server" title="Permanent link">#</a></h2>
 <table>
 <thead>
 <tr>
@@ -265,28 +265,33 @@
 </thead>
 <tbody>
 <tr>
-<td align="left"><strong>env.ftp.ip</strong></td>
-<td align="left">IPv4 address for the FTP server that will be used to pass config files and<br /> iso to KVM host LPAR(s) and bastion VM during their first boot.</td>
+<td align="left"><strong>env.file_server.ip</strong></td>
+<td align="left">IPv4 address for the file server that will be used to pass config files and<br /> iso to KVM host LPAR(s) and bastion VM during their first boot.</td>
 <td align="left">192.168.10.201</td>
 </tr>
 <tr>
-<td align="left"><strong>env.ftp.user</strong></td>
-<td align="left">Username to connect to the FTP server. Must have sudo and SSH access.</td>
-<td align="left">ftp-user</td>
+<td align="left"><strong>env.file_server.user</strong></td>
+<td align="left">Username to connect to the file server. Must have sudo and SSH access.</td>
+<td align="left">user1</td>
 </tr>
 <tr>
-<td align="left"><strong>env.ftp.pass</strong></td>
-<td align="left">Password to connect to the FTP server as above user.</td>
-<td align="left">FTPpa$s!</td>
+<td align="left"><strong>env.file_server.pass</strong></td>
+<td align="left">Password to connect to the file server as above user.</td>
+<td align="left">user1pa$s!</td>
 </tr>
 <tr>
-<td align="left"><strong>env.ftp.iso_mount_dir</strong></td>
-<td align="left">Directory path relative to FTP root where RHEL ISO is mounted. If FTP root is /var/ftp/pub<br /> and the ISO is mounted at /var/ftp/pub/RHEL/8.5 then this variable would be<br /> RHEL/8.5. No slash before or after.</td>
-<td align="left">RHEL/8.5</td>
+<td align="left"><strong>env.file_server.protocol</strong></td>
+<td align="left">Protocol used to serve the files, either 'ftp' or 'http'</td>
+<td align="left">http</td>
 </tr>
 <tr>
-<td align="left"><strong>env.ftp.cfgs_dir</strong></td>
-<td align="left">Directory path relative to FTP root where configuration files can be stored. If FTP root is /var/ftp/pub<br /> and you would like to store the configs at /var/ftp/pub/ocpz-config then this variable would be<br /> ocpz-config. No slash before or after.</td>
+<td align="left"><strong>env.file_server.iso_mount_dir</strong></td>
+<td align="left">Directory path relative to the HTTP/FTP accessible directory where RHEL ISO is mounted. For example, if the FTP root is at /home/user1<br /> and the ISO is mounted at /home/user1/RHEL/8.7 then this variable would be<br /> RHEL/8.7 - no slash before or after.</td>
+<td align="left">RHEL/8.7</td>
+</tr>
+<tr>
+<td align="left"><strong>env.file_server.cfgs_dir</strong></td>
+<td align="left">Directory path relative to to the HTTP/FTP accessible directory where configuration files can be stored. For example, if FTP root is /home/user1<br /> and you would like to store the configs at /home/user1/ocpz-config then this variable would be<br /> ocpz-config. No slash before or after.</td>
 <td align="left">ocpz-config</td>
 </tr>
 </tbody>
